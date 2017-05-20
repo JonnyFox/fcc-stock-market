@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "lib": ["es6", "dom"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "sourceMap": true,
+        "outDir": "../dist/server",
+        "typeRoots": [
+            "node_modules/@types",
+            "@types",
+            "typings"
+        ]
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ]
+}

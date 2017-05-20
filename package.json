@@ -1,0 +1,26 @@
+{
+  "name": "fcc-nightlife-app",
+  "version": "0.0.0",
+  "license": "MIT",
+  "angular-cli": {},
+  "scripts": {
+    "clean": "rimraf dist",
+    "start": "node ./dist/server/server.js",
+    "postinstall": "npm run build",
+    "prebuild": "npm run clean",
+    "build": "concurrently \"cd server && npm i && npm run build\" \"cd client && npm i && npm run publish\""
+  },
+  "private": true,
+  "dependencies": {
+    "body-parser": "1.17.2",
+    "concurrently": "^3.4.0",
+    "copy-newer": "^2.1.2",
+    "cors": "2.8.3",
+    "express": "4.15.3",
+    "inversify": "4.1.0",
+    "inversify-express-utils": "3.5.1",
+    "mongodb": "2.2.26",
+    "morgan": "1.8.1",
+    "reflect-metadata": "0.1.10"
+  }
+}
