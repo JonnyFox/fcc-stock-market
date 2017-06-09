@@ -1,4 +1,16 @@
-<h1>
-  {{title}}
-</h1>
+<md-input-container>
+    <input mdInput placeholder="Ticker" [mdAutocomplete]="auto" [formControl]="tickerControl">
+</md-input-container>
+
+<md-autocomplete #auto="mdAutocomplete">
+    <md-option *ngFor="let ticker of filteredTickers | async" [value]="ticker.name">
+        {{ ticker.name }}
+    </md-option>
+</md-autocomplete>
+<button md-raised-button [disabled]="tickerControl.value === ''" (click)="addTicker()">Add</button>
+<div>
+    <div *ngFor="let ticker of tickers">
+        {{ ticker }}
+    </div>
+</div>
 <router-outlet></router-outlet>
