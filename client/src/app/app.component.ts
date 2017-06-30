@@ -11,6 +11,7 @@ import { Ticker, WsMessage } from '../../../server/src/models';
 import { StockService } from '../shared/stock.service';
 import { MdAutocompleteTrigger } from "@angular/material";
 import { BaseChartDirective } from "ng2-charts";
+import { environment } from "environments/environment";
 
 interface ChartData {
     data: number[];
@@ -61,7 +62,7 @@ export class AppComponent implements OnDestroy {
             });
 
         this.ws = webSocketService
-            .connect('ws://localhost:8999/');
+            .connect(environment.appUrl.replace(/https?/, 'ws'));
 
         let chart = this.chart;
 
@@ -84,9 +85,9 @@ export class AppComponent implements OnDestroy {
                 }, 0);
             }
 
-            if (messageData.type === WsMessages[WsMessages.GetUsers]) { 
+            if (messageData.type === WsMessages[WsMessages.GetUsers]) {
                 let messageData = <WsMessage>JSON.parse(message.data);
-                if (messageData && !!messageData.data) { 
+                if (messageData && !!messageData.data) {
                     this.liveUsersCount = +messageData.data;
                     this.liveUsersCountString = `${this.liveUsersCount} live user${this.liveUsersCount > 1 ? 's' : ''}`;
                 }
