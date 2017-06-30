@@ -62,7 +62,7 @@ export class AppComponent implements OnDestroy {
             });
 
         this.ws = webSocketService
-            .connect(environment.appUrl.replace(/https?/, 'ws'));
+            .connect(environment.appUrl.replace(/https?/, 'wss'));
 
         let chart = this.chart;
 
