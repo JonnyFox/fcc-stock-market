@@ -29,7 +29,9 @@
     "reflect-metadata": "0.1.10",
     "request": "2.81.0",
     "request-promise": "4.2.1",
-    "ws": "^3.0.0",
+    "ws": "^3.0.0"
+  },
+  "devDependencies": {
     "@types/body-parser": "1.16.3",
     "@types/cors": "2.8.1",
     "@types/dateformat": "1.0.1",
@@ -41,6 +43,7 @@
     "@types/ws": "0.0.41",
     "concurrently": "3.4.0",
     "copy-newer": "^2.1.2",
+    "morgan": "1.8.1",
     "nodemon": "1.11.0",
     "rimraf": "2.6.1",
     "tslint": "5.2.0",

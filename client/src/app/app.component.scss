@@ -1,0 +1,46 @@
+.separator{
+    padding-top: 5rem;
+}
+
+.mat-card{
+    width: 24%;
+}
+
+.mat-card:hover {
+    background-color: #555;
+}
+
+.bordered{
+    border-left-width: 0.25rem;
+    border-left-style: solid;
+    margin: .5rem;
+}
+
+.tickers-container{
+    display: flex;
+     flex-wrap: wrap;
+}
+
+.ticker-content{
+    display: flex;
+    align-items: center;
+}
+
+.ticker-name{
+    width: 80%;
+}
+
+.ticker-remove{
+    text-align: center;
+    cursor: pointer;
+    width: 20%;
+    opacity: .1;
+    transition: ease 1s ;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+.ticker-input{
+    width: 40rem;
+}

@@ -4,16 +4,17 @@ export interface StockRequest {
     to: string;
 }
 
-export interface StockResponse {
-    ticker: string;
-    date: string;
-    volume: number;
-}
-
 export interface Ticker {
     name: string;
     ticker: string;
     location: string;
+    stocks: StockValue[];
+    colors: number[];
+}
+
+export class StockValue { 
+    date: string;
+    volume: number;
 }
 
 export class WsMessage {

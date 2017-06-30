@@ -9,12 +9,14 @@ import * as url from 'url';
 import * as WebSocket from 'ws';
 import { InversifyExpressServer } from 'inversify-express-utils';
 
-import { ConfigService } from './services';
+import { ConfigService, StockService } from './services';
 import { Ticker, WsMessage } from './models';
 import { WsMessages } from './ws-messages.enum';
 import container from './config/inversify.conf';
 
 let configService = container.get(ConfigService);
+let stockService = container.get(StockService);
+
 let serverConfig = new InversifyExpressServer(container);
 
 serverConfig.setConfig((app) => {
@@ -49,35 +51,72 @@ wss.on('connection', (ws: WebSocketExt) => {
         ws.isAlive = true;
     });
 
-    ws.on('message', (message: string) => {
+    ws.on('message', async (message: string) => {
         console.log('received: %s', message);
 
         let messageData = JSON.parse(message);
 
         if (messageData.type === WsMessages[WsMessages.AddTicker]) {
-            tickers.push(messageData.data);
 
-            wss.clients.forEach(cl => {
-                cl.send(JSON.stringify({
-                    type: WsMessages[WsMessages.GetTickers], data: tickers
-                }))
-            });
+            let ticker = <Ticker>messageData.data;
+
+            if (ticker) {
+                let today = new Date();
+                let oneYearAgo = new Date();
+                oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+                ticker.stocks = await stockService.getStocks(ticker.ticker, oneYearAgo, today);
+
+                tickers.push(ticker);
+            }
+
+            broadcastTickersToClients();
         }
+
+        if (messageData.type === WsMessages[WsMessages.RemoveTicker]) {
+            let ticker = <Ticker>messageData.data;
+            tickers = tickers.filter(t => t.ticker !== ticker.ticker);
+
+            broadcastTickersToClients();
+        }
+    });
+
+    ws.on('close', (code: number, message: string) => {
+        console.log(code + message);
+
+        
+        broadcastUsersToClients();
     });
 
     sendMessage(ws, {
         type: WsMessages[WsMessages.GetTickers],
         data: tickers
     });
+
+    broadcastUsersToClients();
 });
 
+function broadcastTickersToClients() {
+    wss.clients.forEach(cl => {
+        cl.send(JSON.stringify({
+            type: WsMessages[WsMessages.GetTickers], data: tickers
+        }));
+    });
+}
 
+function broadcastUsersToClients() {
+    wss.clients.forEach(cl => {
+        cl.send(JSON.stringify({
+            type: WsMessages[WsMessages.GetUsers], data: (<any>wss.clients).size
+        }));
+    });
+}
 
 setInterval(() => {
     wss.clients.forEach((ws: WebSocketExt) => {
         if (!ws.isAlive) return ws.terminate();
         ws.isAlive = false;
-        ws.ping('', false, true);
+        ws.ping('', null, true);
     });
 }, 10000);
 

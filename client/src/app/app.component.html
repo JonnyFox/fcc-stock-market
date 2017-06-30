@@ -1,16 +1,36 @@
-<md-input-container>
-    <input mdInput placeholder="Ticker" [mdAutocomplete]="auto" [formControl]="tickerControl">
-</md-input-container>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div *ngIf="lineChartData.length">
+                <canvas #testChart='base-chart' baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+                    chartType="line"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row tickers-container separator">
+        <md-card *ngFor="let ticker of tickers" [style.border-color]="getBorderStyle(ticker)" class="bordered">
+            <md-card-content class="ticker-content animated fadeIn">
+                <div class="ticker-name">{{ticker.name}}</div>
+                <div class="ticker-remove" (click)="removeTicker(ticker)"><i class="material-icons">delete</i></div>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div class="row separator">
+        <div class="col-xs-12">
+            <md-input-container class="ticker-input">
+                <input mdInput placeholder="Ticker" [mdAutocomplete]="auto" [formControl]="tickerControl">
+            </md-input-container>
 
-<md-autocomplete #auto="mdAutocomplete">
-    <md-option *ngFor="let ticker of filteredTickers | async" [value]="ticker.name">
-        {{ ticker.name }}
-    </md-option>
-</md-autocomplete>
-<button md-raised-button [disabled]="tickerControl.value === ''" (click)="addTicker()">Add</button>
-<div>
-    <div *ngFor="let ticker of tickers">
-        {{ ticker }}
+            <md-autocomplete #auto="mdAutocomplete">
+                <md-option *ngFor="let ticker of filteredTickers | async" [value]="ticker.name" (onSelectionChange)="onSelectTicker(ticker)">
+                    {{ ticker.name }}
+                </md-option>
+            </md-autocomplete>
+            <button md-fab [disabled]="tickerControl.value === ''" (click)="addTicker()">Add</button>
+        </div>
+    </div>
+    <div class="row separator" *ngIf="liveUsersCount">
+        <div class="col-xs-12 footer">{{liveUsersCountString}}</div>
     </div>
 </div>
 <router-outlet></router-outlet>

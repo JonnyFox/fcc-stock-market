@@ -21,6 +21,7 @@
     "inversify-express-utils": "3.5.1",
     "mongodb": "2.2.26",
     "morgan": "1.8.1",
-    "reflect-metadata": "0.1.10"
+    "reflect-metadata": "0.1.10",
+    "rimraf": "^2.6.1"
   }
 }

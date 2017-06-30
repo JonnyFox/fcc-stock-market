@@ -1,4 +1,4 @@
-import { StockResponse, Ticker } from '../../../server/src/models';
+import { Ticker } from '../../../server/src/models';
 import { BaseService } from './base.service';
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Observable";
 import { environment } from "environments/environment";
 
 @Injectable()
-export class StockService extends BaseService<StockResponse> {
+export class StockService extends BaseService<{}> {
 
     constructor(protected http: Http) {
         super(http, environment.appUrl + '/api/stocks')

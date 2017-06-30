@@ -1,4 +1,6 @@
 export enum WsMessages { 
     AddTicker,
-    GetTickers
+    RemoveTicker,
+    GetTickers,
+    GetUsers
 }
